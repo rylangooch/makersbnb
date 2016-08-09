@@ -1,8 +1,8 @@
 var path = require('path');
 
 module.exports = {
- 'config': path.resolve('/', 'config.json'),
- 'migrations-path': path.resolve('/', 'migrations'),
- 'models-path': path.resolve('/', 'models'),
- 'seeders-path': path.resolve('/', 'seeders')
+ 'config': path.resolve('./makerbnb', 'config.json'),
+ 'migrations-path': path.resolve('/makerbnb', 'migrations'),
+ 'models-path': path.resolve('/makerbnb', 'models'),
+ 'seeders-path': path.resolve('/makerbnb', 'seeders')
 }

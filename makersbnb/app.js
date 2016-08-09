@@ -7,14 +7,15 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var bcrypt = require('bcrypt');
 
 var app = express();
-var userModels = require('./models/users')
+var userModels = require('./models/users');
 
 var Sequelize = require('sequelize')
 // var connection = new Sequelize('makersbnb_dev', 'thadycondon', 'password')
 
- , sequelize = new Sequelize('makersbnb_dev', 'thadycondon', 'password', {
+,sequelize = new Sequelize('makersbnb_dev', 'thadycondon', 'password', {
      dialect: "postgres", // or 'sqlite', 'postgres', 'mariadb'
      port:    5432, // or 5432 (for postgres)
    });
@@ -22,14 +23,52 @@ var Sequelize = require('sequelize')
 var User = sequelize.define('user', {
   username: Sequelize.STRING,
   password: Sequelize.STRING
+}, {
+  hooks: {
+    afterValidates: function (user) {
+      user.password = bcrypt.hashSync(user.password, 8);
+    }
+  }
 });
 
+
+
+
 sequelize.sync().then(function() {
-  User.create ({
-    username: 'THADY',
-    password: '12345'
+  // User.create ({
+  //   username: 'THADY',
+  //   password: '12345'
+  // })
+  User.findAll().then(function(users){
+    console.log(users);
   })
 })
+
+var Space = sequelize.define('space', {
+  name: Sequelize.STRING,
+  location: Sequelize.STRING,
+  pricePerNight: Sequelize.INTEGER
+
+});
+User.hasMany(Space);
+Space.belongsTo(User)
+
+sequelize.sync().then(function() {
+
+  // Space.create ({
+  //
+  //
+  //   name: 'The entire Shard',
+  //   location: 'Somewhere in London',
+  //   pricePerNight: "400000000",
+  //   userId: 4
+  // })
+  Space.findAll().then(function(spaces){
+    console.log(spaces);
+      });
+})
+
+
 
 // sequelize
 //   .authenticate()
