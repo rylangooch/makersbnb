@@ -15,7 +15,7 @@ var userModels = require('./models/users');
 var Sequelize = require('sequelize')
 // var connection = new Sequelize('makersbnb_dev', 'thadycondon', 'password')
 
-,sequelize = new Sequelize('makersbnb_dev', 'thadycondon', 'password', {
+,sequelize = new Sequelize('makersbnb_dev', 'rylangooch', 'password', {
      dialect: "postgres", // or 'sqlite', 'postgres', 'mariadb'
      port:    5432, // or 5432 (for postgres)
    });
@@ -142,3 +142,9 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+module.exports = app;
+if (!module.parent) {
+http.createServer(app).listen(process.env.PORT, function(){
+  console.log("Server listening on port " + app.get('port'));
+});
+}
